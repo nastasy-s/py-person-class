@@ -7,7 +7,7 @@ class Person:
         Person.people[self.name] = self
 
     def __repr__(self) -> str:
-        return f"Person(name=\\\"{self.name}\\\", age={self.age})"
+        return 'Person(name="{0}", age={1})'.format(self.name, self.age)
 
 
 def create_person_list(people: list[dict]) -> list[Person]:
@@ -24,8 +24,8 @@ def create_person_list(people: list[dict]) -> list[Person]:
             if spouse_name is not None:
                 if spouse_name not in Person.people:
                     raise ValueError(
-                        f"Spouse \\\"{spouse_name}\\\" for "
-                        f"\\\"{person.name}\\\" not found in people list"
+                        'Spouse "{0}" for "{1}" not found in people list'
+                        .format(spouse_name, person.name)
                     )
                 setattr(person, key, Person.people[spouse_name])
 
