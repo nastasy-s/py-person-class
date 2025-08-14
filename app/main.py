@@ -1,7 +1,7 @@
 class Person:
     people: dict[str, "Person"] = {}
 
-    def __init__(self, name: str, age: int):
+    def __init__(self, name: str, age: int) -> None:
         self.name = name
         self.age = age
         Person.people[self.name] = self
@@ -12,24 +12,21 @@ class Person:
 
 def create_person_list(people: list[dict]) -> list[Person]:
     Person.people.clear()
+
     result: list[Person] = []
     for data in people:
         result.append(Person(data["name"], data["age"]))
+
     for data in people:
         person = Person.people[data["name"]]
         for key in ("wife", "husband"):
             spouse_name = data.get(key)
             if spouse_name is not None:
-                try:
-                    setattr(person, key, Person.people[spouse_name])
-                except KeyError:
+                if spouse_name not in Person.people:
                     raise ValueError(
-                        f"Spouse \\\"{spouse_name}\\\" for \\\"{person.name}\\\" not found in people list"
+                        f"Spouse \\\"{spouse_name}\\\" for "
+                        f"\\\"{person.name}\\\" not found in people list"
                     )
+                setattr(person, key, Person.people[spouse_name])
+
     return result
-
-
-
-
-
-
